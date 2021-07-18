@@ -5,5 +5,8 @@
 @tailwind utilities;
 
 .center {
-  @apply flex h-screen justify-center items-center;
+  @apply flex justify-center items-center;
+}
+.form-login {
+  @apply rounded-full border border-gray-300 h-10 w-11/12 mt-2;
 }
