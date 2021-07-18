@@ -1,7 +1,7 @@
-import React,{Fragment}  from "react";
+import React from "react";
 import Login from "./components/Login";
 import {AuthProvider} from "./context/AuthContext"
-import { Switch, Route, Link, useLocation} from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 
 
