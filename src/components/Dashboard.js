@@ -1,5 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
-import { AuthContext } from '../context/AuthContext'
+import React, {useEffect, useState} from 'react'
 import firebase from "../firebase"
 
 function Dashboard() {
@@ -7,7 +6,6 @@ function Dashboard() {
     const [height, setHeight] = useState("")
     const [status, setStatus] = useState("")
     const [load, setLoad] = useState(false)
-    const {currentUser} = useContext(AuthContext)
 
     useEffect(()=>{
         setLoad(true)
@@ -18,7 +16,7 @@ function Dashboard() {
             setLoad(false)  
         })
         
-    }, [])
+    }, [db])
     
     const logout = ()=>{
         firebase.auth().signOut()
@@ -26,7 +24,7 @@ function Dashboard() {
 
     return (
         <div>
-            <h1>hello {currentUser}</h1>
+            
             {load ? <p>Loading</p>:
                 <div>
                     <p>Ketinggian Air : {height}</p> 

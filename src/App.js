@@ -1,8 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Login from "./components/Login";
 import {AuthProvider} from "./context/AuthContext"
 import { Switch, Route } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
+import Navigation from "./main/Navigation";
+import Body from "./main/Body";
+import Header from "./main/Header";
 
 
 function App() {
@@ -11,14 +13,13 @@ function App() {
     <AuthProvider>
             <Switch>
               <Route path='/Login' component={Login}/>
-              <Route path='/' component={Dashboard}/>
-              {/* <Route path='/' render={() =>
+              <Route path='/' render={() =>
                     <Fragment>
                         <Header/>
                         <Body/>
-                        <Controller/>
+                        <Navigation/>
                     </Fragment>
-                    } /> */}
+                    } />
             </Switch>
     </AuthProvider>
     

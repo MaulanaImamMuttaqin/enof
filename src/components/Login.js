@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import firebase from "../firebase"
-// import { AuthContext } from '../context/AuthContext'
 import {motion} from "framer-motion"
 import { useHistory } from 'react-router';
 
@@ -22,8 +21,6 @@ const loginVariant = {
 }
 
 export default function Login() {
-    // const {currentUser} = useContext(AuthContext)
-    // console.log(currentUser)
 
     const { register, handleSubmit} = useForm();
     const [Loading, setLoading] = useState(false)

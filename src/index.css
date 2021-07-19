@@ -10,3 +10,6 @@
 .form-login {
   @apply rounded-full border border-gray-300 h-10 w-11/12 mt-2;
 }
+.nav-button{
+  @apply inline-block h-full center mx-2;
+}

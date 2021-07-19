@@ -16,7 +16,7 @@ export function AuthProvider({children}) {
             if(user){
                 console.log(user.email)
                 setCurrentUser(user.email)
-            }else if (!user && (location.pathname != "/Login")){
+            }else if (!user && (location.pathname !== "/Login")){
                 console.log("not logged in")
                 history.push("/Login")
                 
