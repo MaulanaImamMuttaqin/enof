@@ -13,3 +13,12 @@
 .nav-button{
   @apply inline-block h-full center mx-2;
 }
+.blue-logo{
+  @apply text-blue-500 bg-white;
+}
+.white-logo{
+  @apply text-white bg-blue-500;
+}
+.center-child{
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+}
