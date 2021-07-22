@@ -2,6 +2,7 @@ import { AnimatePresence } from 'framer-motion';
 import React from 'react'
 import { Route, Switch, useLocation } from 'react-router-dom'
 import Dashboard from '../components/Dashboard';
+import History from '../components/History';
 
 
 function Body() {
@@ -9,6 +10,7 @@ function Body() {
     return (
         <AnimatePresence>
             <Switch location={location} key={location.key}>
+              <Route path="/History" component={History}/>
               <Route path='/' component={Dashboard}/>
             </Switch>
           </AnimatePresence>

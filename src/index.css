@@ -20,5 +20,17 @@
   @apply text-white bg-blue-500;
 }
 .center-child{
-  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+}
+.yellow-water{
+  @apply bg-yellow-300;
+}
+.blue-water{
+  @apply bg-blue-800;
+}
+.orange-water{
+  @apply bg-yellow-500;  
+}
+.red-water {
+  @apply bg-red-700;
 }

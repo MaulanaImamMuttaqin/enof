@@ -1,4 +1,6 @@
+
 import firebase from 'firebase'
+import "firebase/messaging"
 import "firebase/auth"
 
 
@@ -12,6 +14,8 @@ var firebaseConfig = {
     appId: "1:195472621673:web:fe753cec0a2352e23262f8",
     measurementId: "G-773H6D9Q5W"
   };
+
+  
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 

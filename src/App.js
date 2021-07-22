@@ -1,14 +1,31 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import Login from "./components/Login";
 import {AuthProvider} from "./context/AuthContext"
 import { Switch, Route } from "react-router-dom";
 import Navigation from "./main/Navigation";
 import Body from "./main/Body";
 import Header from "./main/Header";
-
+import firebase from "./firebase"
 
 function App() {
-  
+  useEffect(()=>{
+    const messaging = firebase.messaging()
+    // messaging.getToken({vapidKey: "BN5jpvIFIdTUxWTe4L0fJGMNk8tjq6oGgVLcnWJ9d6ntDDidwVLPIdsK9FISAl--1j8EnCunvVLENB-O6JvHiUg"});
+    messaging.getToken({ vapidKey: 'BN5jpvIFIdTUxWTe4L0fJGMNk8tjq6oGgVLcnWJ9d6ntDDidwVLPIdsK9FISAl--1j8EnCunvVLENB-O6JvHiUg' }).then((currentToken) => {
+      if (currentToken) {
+        // Send the token to your server and update the UI if necessary
+        // ...
+        console.log('Token', currentToken)
+      } else {
+        // Show permission request UI
+        console.log('No registration token available. Request permission to generate one.');
+        // ...
+      }
+    }).catch((err) => {
+      console.log('An error occurred while retrieving token. ', err);
+      // ...
+    });
+  },[])
   return (
     <AuthProvider>
             <Switch>
