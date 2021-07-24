@@ -8,24 +8,7 @@ import Header from "./main/Header";
 import firebase from "./firebase"
 
 function App() {
-  useEffect(()=>{
-    const messaging = firebase.messaging()
-    // messaging.getToken({vapidKey: "BN5jpvIFIdTUxWTe4L0fJGMNk8tjq6oGgVLcnWJ9d6ntDDidwVLPIdsK9FISAl--1j8EnCunvVLENB-O6JvHiUg"});
-    messaging.getToken({ vapidKey: 'BN5jpvIFIdTUxWTe4L0fJGMNk8tjq6oGgVLcnWJ9d6ntDDidwVLPIdsK9FISAl--1j8EnCunvVLENB-O6JvHiUg' }).then((currentToken) => {
-      if (currentToken) {
-        // Send the token to your server and update the UI if necessary
-        // ...
-        console.log('Token', currentToken)
-      } else {
-        // Show permission request UI
-        console.log('No registration token available. Request permission to generate one.');
-        // ...
-      }
-    }).catch((err) => {
-      console.log('An error occurred while retrieving token. ', err);
-      // ...
-    });
-  },[])
+
   return (
     <AuthProvider>
             <Switch>

@@ -25,28 +25,95 @@ const PageVariant = {
         }
     }
   }
+const connectionVariant = {
+    hidden: {
+        opacity: 0,
+        y: 50
+    },
+    visible:{
+        opacity:1,
+        y:0,
+        transition : {
+            ease : "easeInOut",
+            delay:0.3
+        }
+    },
+    exit:{
+        y:-50,
+        opacity:0,  
+        transition:{
+            ease: "easeInOut"
+        }
+    }
+}
 
 function Dashboard() {
     const db = firebase.database().ref('pos_1')
+    const connectedRef = firebase.database().ref(".info/connected");
+
     const [height, setHeight] = useState("")
     const [status, setStatus] = useState("")
     const [waterHeight, setWaterHeight] = useState("450")
     const [waterColor, setWatercolor ] = useState("blue")
+    const [disConnected, setDisConnected] = useState(false)
     const [load, setLoad] = useState(false)
+
+    const showNotification =() =>{
+        const notification = new Notification("E-nof", {
+            body : "BANJIR, SEGERA SELAMATKAN BARANG ANDA", 
+            requireInteraction: true
+        })
+    }
+
+    const sendNotification = (water_level) =>{
+        if (water_level > 3){
+            if(Notification.permission === 'granted'){
+                showNotification()
+            }else if (Notification.permission !== 'denied'){
+                Notification.requestPermission().then(permission =>{
+                    if(permission === 'granted'){
+                        showNotification()
+                    }
+                })
+            }
+        }
+        
+    }
+
+    const setupData = (data)=>{
+        const water_level = data.ketinggian_air && parseFloat(data.ketinggian_air.tinggi_air).toFixed(1);
+        const status = data.Status && data.Status.status
+        const water = -1 * (((water_level / 5.0) * 300)  - 550)
+        const water_color = water_level < 2 ? 'blue' : (water_level > 2 && water_level <= 3) ? 'yellow': (water_level > 3 && water_level < 4) ? 'red' : 'red' 
+        setWatercolor(water_color)
+        setWaterHeight(water)
+        setHeight(water_level)
+        setStatus(status)
+        // sendNotification(water_level)
+        setLoad(false)  
+    }
+
+
 
     useEffect(()=>{
         setLoad(true)
         db.on('value', (data)=>{
             const result = data.val()
-            const water_level = parseFloat(result.ketinggian_air.tinggi_air).toFixed(1);
-            const water = -1 * (((water_level / 5.0) * 300)  - 550)
-            const water_color = water_level < 2 ? 'blue' : (water_level > 2 && water_level <= 3) ? 'yellow': (water_level > 3 && water_level < 4) ? 'red' : 'red' 
-            setWatercolor(water_color)
-            setWaterHeight(water)
-            setHeight(water_level)
-            setStatus(result.Status.status)
-            setLoad(false)  
+            localStorage.setItem("result", JSON.stringify(result))
+            setupData(result)
         })
+        connectedRef.on("value", (snap) => {
+            if (snap.val() === false) {
+                let Data =  localStorage.getItem("result")
+                setupData(JSON.parse(Data))
+                setDisConnected(true)
+            } else { 
+                setDisConnected(false)
+            }
+          });
+
+        
+
         return ()=> console.log("clean up")
     }, [db])
     
@@ -61,9 +128,20 @@ function Dashboard() {
             animate="visible"
             exit="exit"
         >
-            <div className="absolute h-screen w-screen z-50">
-                <div className="h-auto w-full grid grid-cols-2 absolute top-56">
+            <div className="absolute h-screen w-screen z-20 pt-14">
+                {disConnected && 
                 
+                <motion.div className="bg-yellow-400 p-3 text-xl font-bold text-gray-300 rounded-lg m-2"
+                    variants={connectionVariant}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                >
+                    <h1>Anda tidak terhubung ke internet</h1>
+                </motion.div>
+                }
+                <div className="h-auto w-full grid grid-cols-2 absolute top-56">
+                    
                     <div className="h-20 rounded-xl border border-gray-400 shadow-2xl m-2">
                         <div className="h-full rounded-xl backdrop-filter backdrop-blur-sm"></div>
                     </div>
