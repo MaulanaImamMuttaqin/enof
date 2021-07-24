@@ -8,6 +8,8 @@ this.addEventListener('install', event =>{
                 '/static/js/main.chunk.js',
                 '/static/js/vendors~main.chunk.js',
                 '/static/js/bundle.js',
+                '/static/js/2.edef3b8f.chunk.js',
+                '/static/js/main.0de47f8b.chunk.js',
                 '/index.html',
                 '/',
                 '/History' // buat route yang memerlukan pengambilan api
