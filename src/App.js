@@ -1,11 +1,11 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import Login from "./components/Login";
 import {AuthProvider} from "./context/AuthContext"
 import { Switch, Route } from "react-router-dom";
 import Navigation from "./main/Navigation";
 import Body from "./main/Body";
 import Header from "./main/Header";
-import firebase from "./firebase"
+
 
 function App() {
 

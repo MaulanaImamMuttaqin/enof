@@ -14,7 +14,6 @@ export function AuthProvider({children}) {
     useEffect(()=>{
         firebase.auth().onAuthStateChanged((user)=>{
             if(user){
-                console.log(user.email)
                 setCurrentUser(user.email)
             }else if (!user && (location.pathname !== "/Login")){
                 console.log("not logged in")
@@ -26,7 +25,7 @@ export function AuthProvider({children}) {
 
     },[])
 
-    console.log(currentUser)
+
     return (
         <AuthContext.Provider
             value={{currentUser}}
