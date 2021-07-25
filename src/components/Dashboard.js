@@ -74,12 +74,23 @@ function Dashboard() {
         // console.log("notification is already sended : ", notifSended)
         if(!notifSended){
             // console.log("notification sended")
-            const notification = new Notification("E-nof", {
-                body : "BANJIR, SEGERA SELAMATKAN BARANG ANDA", 
-                requireInteraction: true
+            navigator.serviceWorker.getRegistration()
+            .then(reg =>{
+                reg.showNotification("E-nof", {
+                    body : "BANJIR, SEGERA SELAMATKAN BARANG ANDA", 
+                    icon : "public/logo e-nof.jpeg",
+                    vibrate: [100, 50, 100],
+                    requireInteraction: true
+                })
             })
+            // const notification = new Notification("E-nof", {
+            //     body : "BANJIR, SEGERA SELAMATKAN BARANG ANDA", 
+            //     requireInteraction: true
+            // })
             notifSended = true
 
+        }else{
+            notifSended = false
         }
         
         
@@ -96,8 +107,6 @@ function Dashboard() {
                     }
                 })
             }
-        }else {
-            notifSended = false
         }
         
     }   
@@ -128,7 +137,7 @@ function Dashboard() {
             setupData(result)
         })
         connectedRef.on("value", (snap) => {
-            if (snap.val() === false && (!navigator.onLine)) {
+            if (snap.val() === false || (!navigator.onLine)) {
                 let Data =  localStorage.getItem("result")
                 setupData(JSON.parse(Data))
                 setDisConnected(true)
@@ -152,7 +161,7 @@ function Dashboard() {
             
             <div className="absolute h-screen w-screen z-20">
                 <AnimatePresence>
-                    {false && 
+                    {disConnected && 
                         <Connection_Status/>
                     }
                 </AnimatePresence>

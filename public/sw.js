@@ -12,8 +12,11 @@ this.addEventListener('install', event =>{
                 '/static/js/main.0de47f8b.chunk.js',
                 '/static/css/main.8c083c7b.chunk.css',
                 '/index.html',
+                '/manifest.json',
+                '/logo%20e-nof.jpeg',
                 '/',
-                '/History' // buat route yang memerlukan pengambilan api
+                '/History', // buat route yang memerlukan pengambilan api
+                '/Login'
             ])
     }))
 })
