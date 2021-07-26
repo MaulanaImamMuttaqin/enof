@@ -1,6 +1,7 @@
 import React, {useEffect, useReducer, useState} from 'react'
 import firebase from "../firebase"
 import {AnimatePresence, motion} from "framer-motion"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const PageVariant = {
     hidden: {
@@ -16,7 +17,6 @@ const PageVariant = {
         }
     },
     exit:{
-        x:-50,
         opacity:0,  
         transition:{
             ease: "easeInOut"
@@ -71,9 +71,7 @@ function Dashboard() {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const showNotification =() =>{
-        // console.log("notification is already sended : ", notifSended)
         if(!notifSended){
-            // console.log("notification sended")
             navigator.serviceWorker.getRegistration()
             .then(reg =>{
                 reg.showNotification("E-nof", {
@@ -83,14 +81,8 @@ function Dashboard() {
                     requireInteraction: true
                 })
             })
-            // const notification = new Notification("E-nof", {
-            //     body : "BANJIR, SEGERA SELAMATKAN BARANG ANDA", 
-            //     requireInteraction: true
-            // })
             notifSended = true
 
-        }else{
-            notifSended = false
         }
         
         
@@ -107,22 +99,54 @@ function Dashboard() {
                     }
                 })
             }
+        }else{
+            notifSended = false
         }
         
     }   
+    const setStatus = (level) =>{
+        switch (level) {
+            case 0:
+                return "AMAN";
+            case 1:
+                return "GAWAT";
+            case 2:
+                return "BAHAYA";
+            case 3:
+                return "BANJIR!";
+            default:
+                throw new Error();
+        }
+    }
+
+    const setWaterColor = (level) =>{
+        switch (level) {
+            case 0:
+                return "blue";
+            case 1:
+                return "yellow";
+            case 2:
+                return "red";
+            case 3:
+                return "red";
+            default:
+                throw new Error();
+        }
+    }
 
     const setupData = (data)=>{
-        const water_level = data.ketinggian_air && parseFloat(data.ketinggian_air.tinggi_air).toFixed(1);
+        const water_level = data.ketinggian_air && parseFloat(data.ketinggian_air.tinggi_air).toFixed(2);
         const status = data.Status && data.Status.status
         const water = -1 * (((water_level / 5.0) * 300)  - 550)
-        const water_color = water_level < 2 ? 'blue' : (water_level > 2 && water_level <= 3) ? 'yellow': (water_level > 3 && water_level < 4) ? 'red' : 'red' 
 
         const new_data = {
             height : water_level,
-            status : status,
+            status : setStatus(status),
             waterAnimationHeight : water,
-            waterAnimationColor : water_color,
+            waterAnimationColor : setWaterColor(status),
         }
+
+        console.log(setWaterColor(status))
         dispatch({type : 'update_status', payload: new_data})
         sendNotification(water_level)  
     }
@@ -130,9 +154,9 @@ function Dashboard() {
 
 
     useEffect(()=>{
-        db.on('value', (data)=>{
+        
+        let fb_data = db.on('value', (data)=>{
             const result = data.val()
-            // console.log(result)
             localStorage.setItem("result", JSON.stringify(result))
             setupData(result)
         })
@@ -152,7 +176,7 @@ function Dashboard() {
 
     return (
 
-        <motion.div className="h-screen relative bg-blue-200"
+        <motion.div className={`h-auto relative bg-gradient-to-t from-blue-500 to-${state.waterAnimationColor}-600`}
             variants={PageVariant}
             initial="hidden"
             animate="visible"
@@ -165,21 +189,48 @@ function Dashboard() {
                         <Connection_Status/>
                     }
                 </AnimatePresence>
-                <div className="h-auto w-full grid grid-cols-2 absolute center-child">
+                <div className="h-auto w-full grid grid-cols-2 absolute center-child text-gray-100">
                     
-                    <div className="h-20 rounded-xl border border-gray-400 shadow-2xl m-2">
-                        <div className="h-full rounded-xl backdrop-filter backdrop-blur-sm"></div>
+                    <div className="h-40 rounded-xl border border-gray-400 shadow-2xl m-2 col-span-2">
+                        <div className="h-full rounded-xl backdrop-filter backdrop-blur-sm center flex-col">
+                            <p className="text-5xl border-b-2 p-5">12:00 AM</p>
+                            <p className="text-xl p-2"><span><FontAwesomeIcon icon="map-marker-alt"/></span> Bandung, Jawa Barat</p>
+                        </div>
                     </div>
-                    <div className="h-20 rounded-xl border border-gray-400 shadow-2xl m-2">
-                        <div className="h-full rounded-xl backdrop-filter backdrop-blur-sm"></div>
+
+                    <div className="h-20 rounded-xl border border-gray-400 shadow-2xl m-2 relative">
+                        <div className="h-full rounded-xl backdrop-filter backdrop-blur-sm absolute"></div>
+                        <div className="center flex flex-col text-xs p-1 center">
+                            <div className=" w-full flex py-2">
+                                    <span className="border-r-2 px-1 flex-1">Suhu</span>
+                                    <span className="px-1 flex-1"><FontAwesomeIcon icon="temperature-high"/> 34 &#8451;</span> 
+                            </div>
+                            <div className=" w-full flex py-2">
+                                <span className="border-r-2 px-1 flex-1">Kelembapan</span>
+                                <span className="px-1 flex-1"><FontAwesomeIcon icon="tint"/> 50 %</span> 
+                            </div>
+                        </div>  
                     </div>
-                    <div className="h-60 rounded-xl border border-gray-400 shadow-2xl m-2 col-span-2 text-center relative">
+
+                    <div className="h-20 rounded-xl border border-gray-400 shadow-2xl m-2 relative center">
+                        <div className="h-full rounded-xl backdrop-filter backdrop-blur-sm absolute"></div>
+                        <div className=" w-full flex p-2 text-sm">
+                            <span className="border-r-2 px-1 flex-1">Cuaca</span>
+                            <span className="px-1 flex-1"><FontAwesomeIcon icon="sun"/> Cerah</span> 
+                        </div>
+                    </div>
+
+                    <div className="h-40 rounded-xl border border-gray-400 shadow-2xl m-2 col-span-2 text-center relative">
                         <div className="h-full rounded-xl backdrop-filter backdrop-blur-sm "></div>
-                        <div className="center-child">
-                            <p>Ketinggian Air</p>
-                            <p><span className="text-6xl">{state.height}</span><span className="text-3xl">m</span></p> 
-                            <p>Status</p>
-                            <p className="text-6xl uppercase"> {state.status}</p>
+                        <div className="h-full center-child flex ">
+                            <div className="w-40 my-4 border-r-2 border-white rounded-lg center flex-col ">
+                                <p className="border-b-2 px-2 pb-1 mb-2">Ketinggian Air</p>
+                                <p><span className="text-4xl mx-1"><FontAwesomeIcon icon="arrows-alt-v"/></span><span className="text-4xl">{state.height}</span><span className="text-3xl"> m</span></p>
+                                </div>
+                            <div className="w-40 my-4 border-l-2 border-white rounded-lg center flex-col" >
+                                <p className="border-b-2 px-2 pb-1 mb-2">Status</p>
+                                <p className="text-4xl uppercase"> {state.status}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -197,7 +248,7 @@ function Dashboard() {
 
 function Connection_Status(){
     return (
-            <motion.div className="bg-yellow-400 p-3 text-xl font-bold text-gray-300 rounded-lg m-2 mt-14"
+            <motion.div className="bg-yellow-400 p-3 text-xl font-bold text-gray-300 rounded-lg m-1 mt-14 relative z-10 shadow-xl"
                 variants={connectionVariant}
                 initial="hidden"
                 animate="visible"
