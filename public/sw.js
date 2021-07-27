@@ -17,7 +17,8 @@ this.addEventListener('install', event =>{
                 '/favicon.ico',
                 '/',
                 '/History', // buat route yang memerlukan pengambilan api
-                '/Login'
+                '/Login',
+                '/LiveStream'
             ])
     }))
 })
