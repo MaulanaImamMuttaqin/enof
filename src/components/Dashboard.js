@@ -72,7 +72,7 @@ function Dashboard() {
 
     const showNotification =() =>{
         if(!notifSended){
-            console.log("send Notification")
+            notifSended = true
             navigator.serviceWorker.getRegistration()
             .then(reg =>{
                 reg.showNotification("E-nof", {
@@ -81,7 +81,7 @@ function Dashboard() {
                     vibrate: [100, 50, 100],
                     requireInteraction: true
                 })
-                notifSended = true
+                
             })
             
         }
@@ -90,8 +90,10 @@ function Dashboard() {
     }
 
     const sendNotification = (water_level) =>{
-        if (water_level > 3 && !notifSended){
+        
+        if (water_level >= 3){
             if(Notification.permission === 'granted'){
+                console.log("send Notification")
                 showNotification()
             }else if (Notification.permission !== 'denied'){
                 Notification.requestPermission().then(permission =>{
@@ -103,6 +105,7 @@ function Dashboard() {
         }else{
             notifSended = false
         }
+        console.log(water_level)
         console.log(notifSended)
     }   
     const decideStatus = (level) =>{
