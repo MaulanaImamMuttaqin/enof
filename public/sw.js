@@ -8,12 +8,13 @@ this.addEventListener('install', event =>{
                 '/static/js/main.chunk.js',
                 '/static/js/vendors~main.chunk.js',
                 '/static/js/bundle.js',
-                '/static/js/2.edef3b8f.chunk.js',
-                '/static/js/main.0de47f8b.chunk.js',
-                '/static/css/main.8c083c7b.chunk.css',
+                '/static/js/2.89a50ab7.chunk.js',
+                '/static/js/main.7b7851ce.chunk.js',
+                '/static/css/main.b36019d7.chunk.css',
                 '/index.html',
                 '/manifest.json',
                 '/logo%20e-nof.jpeg',
+                '/favicon.ico',
                 '/',
                 '/History', // buat route yang memerlukan pengambilan api
                 '/Login'
