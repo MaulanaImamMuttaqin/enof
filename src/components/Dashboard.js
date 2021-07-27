@@ -104,7 +104,7 @@ function Dashboard() {
         }
         
     }   
-    const setStatus = (level) =>{
+    const decideStatus = (level) =>{
         switch (level) {
             case 0:
                 return "AMAN";
@@ -115,11 +115,11 @@ function Dashboard() {
             case 3:
                 return "BANJIR!";
             default:
-                throw new Error();
+                return null;
         }
     }
 
-    const setWaterColor = (level) =>{
+    const decideWaterColor = (level) =>{
         switch (level) {
             case 0:
                 return "blue";
@@ -130,7 +130,7 @@ function Dashboard() {
             case 3:
                 return "red";
             default:
-                throw new Error();
+                return null;
         }
     }
 
@@ -141,12 +141,11 @@ function Dashboard() {
 
         const new_data = {
             height : water_level,
-            status : setStatus(status),
+            status : decideStatus(status),
             waterAnimationHeight : water,
-            waterAnimationColor : setWaterColor(status),
+            waterAnimationColor : decideWaterColor(status),
         }
 
-        console.log(setWaterColor(status))
         dispatch({type : 'update_status', payload: new_data})
         sendNotification(water_level)  
     }
