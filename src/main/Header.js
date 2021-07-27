@@ -13,7 +13,7 @@ function Header() {
     const menuClicked = ()=>{
         if(clickMenu === 64){
             setClickMenu(12)
-        }else{
+        }else{  
             setClickMenu(64)
         }
     }

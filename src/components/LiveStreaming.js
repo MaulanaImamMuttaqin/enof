@@ -26,7 +26,7 @@ const PageVariant = {
   }
 
 function LiveStreaming() {
-    const ytSource = "https://www.youtube.com/embed/-X2V9DBva-s"
+    const ytSource = "https://www.youtube.com/embed/zofBinqC2F4"
     return (
         <motion.div
         variants={PageVariant}
@@ -37,7 +37,7 @@ function LiveStreaming() {
             <div className="w-screen h-screen center flex-col p-2">
                 <HeaderTitle>Tampilan Langsung</HeaderTitle>
                 <div className="w-full m-2">
-                    <iframe width="100%" height="315" src={`${ytSource}?autoplay=1&mute=1`} title="YouTube video player" frameBorder="0" allow="autoplay" allowFullScreen></iframe>
+                    <iframe width="100%" height="315" src={`${ytSource}?autoplay=1&mute=1&controls=0`} title="YouTube video player" frameBorder="0" allow="autoplay" allowFullScreen></iframe>
                 </div>
             </div>
         </motion.div>

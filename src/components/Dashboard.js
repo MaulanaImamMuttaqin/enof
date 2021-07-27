@@ -26,7 +26,7 @@ const PageVariant = {
 const connectionVariant = {
     hidden: {
         opacity: 0,
-        y: 50
+        y: 50   
     },
     visible:{
         opacity:1,
@@ -67,11 +67,12 @@ function Dashboard() {
 
     const [disConnected, setDisConnected] = useState(false)
     // const [notifSended, setNotifSended] = useState(false)
-    let notifSended = false
+    let notifSended = true
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const showNotification =() =>{
         if(!notifSended){
+            console.log("send Notification")
             navigator.serviceWorker.getRegistration()
             .then(reg =>{
                 reg.showNotification("E-nof", {
@@ -80,16 +81,16 @@ function Dashboard() {
                     vibrate: [100, 50, 100],
                     requireInteraction: true
                 })
+                notifSended = true
             })
-            notifSended = true
-
+            
         }
-        
+       
         
     }
 
     const sendNotification = (water_level) =>{
-        if (water_level > 3){
+        if (water_level > 3 && !notifSended){
             if(Notification.permission === 'granted'){
                 showNotification()
             }else if (Notification.permission !== 'denied'){
@@ -102,14 +103,14 @@ function Dashboard() {
         }else{
             notifSended = false
         }
-        
+        console.log(notifSended)
     }   
     const decideStatus = (level) =>{
         switch (level) {
             case 0:
                 return "AMAN";
             case 1:
-                return "GAWAT";
+                return "WASPADA";
             case 2:
                 return "BAHAYA";
             case 3:
@@ -154,7 +155,7 @@ function Dashboard() {
 
     useEffect(()=>{
         
-        let fb_data = db.on('value', (data)=>{
+        db.on('value', (data)=>{
             const result = data.val()
             localStorage.setItem("result", JSON.stringify(result))
             setupData(result)
@@ -193,7 +194,7 @@ function Dashboard() {
                     <div className="h-40 rounded-xl border border-gray-400 shadow-2xl m-2 col-span-2">
                         <div className="h-full rounded-xl backdrop-filter backdrop-blur-sm center flex-col">
                             <p className="text-5xl border-b-2 p-5">12:00 AM</p>
-                            <p className="text-xl p-2"><span><FontAwesomeIcon icon="map-marker-alt"/></span> Bandung, Jawa Barat</p>
+                            <p className="text-xl p-2"><span><FontAwesomeIcon icon="map-marker-alt"/></span> Banda Aceh, Aceh</p>
                         </div>
                     </div>
 
