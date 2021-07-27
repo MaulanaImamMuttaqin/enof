@@ -76,7 +76,7 @@ function Dashboard() {
             navigator.serviceWorker.getRegistration()
             .then(reg =>{
                 reg.showNotification("E-nof", {
-                    body : "BANJIR, SEGERA SELAMATKAN BARANG ANDA", 
+                    body : "BANJIR, SEGERA SELAMATKAN DIRI ANDA", 
                     icon : "public/logo e-nof.jpeg",
                     vibrate: [100, 50, 100],
                     requireInteraction: true
@@ -102,7 +102,7 @@ function Dashboard() {
                     }
                 })
             }
-        }else{
+        }else if (water_level < 3){
             notifSended = false
         }
         console.log(water_level)
