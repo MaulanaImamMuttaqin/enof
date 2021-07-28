@@ -45,7 +45,7 @@ function History() {
             <HeaderTitle><span>History</span></HeaderTitle>
             <div className="h-96 w-full border border-gray-400 mb-4 rounded-lg p-2 overflow-y-auto">
                 
-                <SubHeaderTitle><span>Bandung, 26-Juli-2020</span></SubHeaderTitle>
+                <SubHeaderTitle><span>Banda Aceh, 26-Juli-2020</span></SubHeaderTitle>
                 {history.map((hist, index)=>
                     <SubHistory data={hist} ind={index+1} key={index}/>
                 )}
