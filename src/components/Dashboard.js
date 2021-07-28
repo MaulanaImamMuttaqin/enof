@@ -71,7 +71,7 @@ function Dashboard() {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const showNotification =(status, water_level) =>{
-        let bahaya = `Status ketinggian air dalam bahaya dengan ketinggian ${water_level} m, dimohon tetap waspada`
+        let bahaya = `Status ketinggian air dalam bahaya dengan ketinggian bahaya, dimohon tetap waspada`
         let banjir   = "Warning!! Status ketinggian air dalam status banjir!!..segara mengevakuasi diri dan keluarga!!!!"
         let message = status === 2 ? bahaya : status === 3 && banjir 
         console.log(status, water_level, message)
