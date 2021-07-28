@@ -70,13 +70,18 @@ function Dashboard() {
     let notifSended = true
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    const showNotification =() =>{
+    const showNotification =(status, water_level) =>{
+        let bahaya = `Status ketinggian air dalam bahaya dengan ketinggian ${water_level} m, dimohon tetap waspada`
+        let banjir   = "Warning!! Status ketinggian air dalam status banjir!!..segara mengevakuasi diri dan keluarga!!!!"
+        let message = status === 2 ? bahaya : status === 3 && banjir 
+        console.log(status, water_level, message)
+
         if(!notifSended){
             notifSended = true
             navigator.serviceWorker.getRegistration()
             .then(reg =>{
                 reg.showNotification("E-nof", {
-                    body : "BANJIR, SEGERA SELAMATKAN DIRI ANDA", 
+                    body : message,
                     icon : "public/logo e-nof.jpeg",
                     vibrate: [100, 50, 100],
                     requireInteraction: true
@@ -85,28 +90,26 @@ function Dashboard() {
             })
             
         }
-       
+        
         
     }
 
-    const sendNotification = (water_level) =>{
+    const sendNotification = (status, water_level) =>{
         
-        if (water_level >= 3){
+        if (status >= 2){
             if(Notification.permission === 'granted'){
                 console.log("send Notification")
-                showNotification()
+                showNotification(status, water_level)
             }else if (Notification.permission !== 'denied'){
                 Notification.requestPermission().then(permission =>{
                     if(permission === 'granted'){
-                        showNotification()
+                        showNotification(status, water_level)
                     }
                 })
             }
-        }else if (water_level < 3){
+        }else if (status< 2 ){
             notifSended = false
         }
-        console.log(water_level)
-        console.log(notifSended)
     }   
     const decideStatus = (level) =>{
         switch (level) {
@@ -141,7 +144,7 @@ function Dashboard() {
     const setupData = (data)=>{
         const water_level = data.ketinggian_air && parseFloat(data.ketinggian_air.tinggi_air).toFixed(2);
         const status = data.Status && data.Status.status
-        const water = -1 * (((water_level / 5.0) * 300)  - 550)
+        const water = -1 * (((water_level / 0.3) * 300)  - 550)
 
         const new_data = {
             height : water_level,
@@ -151,10 +154,8 @@ function Dashboard() {
         }
 
         dispatch({type : 'update_status', payload: new_data})
-        sendNotification(water_level)  
+        sendNotification(status, water_level)  
     }
-
-
 
     useEffect(()=>{
         
