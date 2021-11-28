@@ -26,7 +26,7 @@ const PageVariant = {
   }
 
 function LiveStreaming() {
-    const ytSource = "https://www.youtube.com/embed/8BvXg7NHEpQ"
+    const ytSource = "https://www.youtube.com/embed/gF8FYYppHtE"
     return (
         <motion.div
         variants={PageVariant}
